@@ -6,7 +6,7 @@ from timer import Timer
 class Llama:
     def __init__(
         self,
-        model_path="models/llama-2-7b-chat.ggmlv3.q4_K_S.bin",
+        model_path="models/llama-2-70b-chat.ggmlv3.q4_K_M.bin",
         debug=False,
         n_gpu_layers=1,
         n_batch=512,
@@ -16,11 +16,13 @@ class Llama:
         # https://github.com/abetlen/llama-cpp-python/blob/92c077136d1f0b029f8907a79eae009a750005e2/llama_cpp/llama.py#L42
         self.llm = LlamaCpp(
             model_path=model_path,
-            n_gpu_layers=n_gpu_layers,
-            n_batch=n_batch,
+            #  n_gpu_layers=n_gpu_layers,
+            #  n_batch=n_batch,
+            n_ctx=2048,
             f16_kv=True,  # MUST set to True
             temperature=0.75,
             max_tokens=2000,
+            # n_gqa=8,  # required for 70b
             top_p=1,
             callback_manager=callback_manager,
             verbose=self.debug,
